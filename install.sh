@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
-# Bootstrap de um comando. Em clone local, usa a árvore atual; por curl, baixa uma cópia limpa.
+# Bootstrap de um comando. Em clone local, usa a árvore atual; por curl|bash, baixa uma cópia limpa.
 set -euo pipefail
 
 REPO_URL="${ACK_REPO_URL:-https://github.com/okjpg/agent-context-kit.git}"
-SELF_DIR="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
-if [[ -f "$SELF_DIR/scripts/install.sh" ]]; then
-  exec "$SELF_DIR/scripts/install.sh" --source "$SELF_DIR" "$@"
+# Quando o script é piped (`curl | bash`), não há arquivo local — BASH_SOURCE pode ficar vazio.
+SOURCE_PATH="${BASH_SOURCE[0]:-}"
+if [[ -n "$SOURCE_PATH" && -f "$SOURCE_PATH" ]]; then
+  SELF_DIR="$(CDPATH= cd -- "$(dirname -- "$SOURCE_PATH")" && pwd)"
+  if [[ -f "$SELF_DIR/scripts/install.sh" ]]; then
+    exec "$SELF_DIR/scripts/install.sh" --source "$SELF_DIR" "$@"
+  fi
 fi
 
 command -v git >/dev/null 2>&1 || {
