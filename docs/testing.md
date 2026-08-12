@@ -75,7 +75,7 @@ Abra uma **nova sessão** Hermes (sessões antigas não recarregam MCP/skill soz
 
 > O que eu prometi na reunião de demonstração? Cite a fonte.
 
-A resposta deve apontar a demo sintética (reunião e/ou arquivo) com fonte/data/proveniência.  
+A resposta deve apontar a demo sintética (reunião e/ou arquivo) com fonte/data/proveniência.
 Não peça ao agente para abrir `~/.context-kit`, SQLite ou JSONL.
 
 ### 3. Inbox de arquivo real (ainda sem chave)

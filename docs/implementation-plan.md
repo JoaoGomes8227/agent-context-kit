@@ -1,8 +1,8 @@
 # Plano de implementação — Agent Context Kit v0.1
 
-> **Status:** entregue em código (0.1.0)  
-> **Fonte de produto:** PRD canônico em `projects/agent-context-hub/PRD.md` no segundo cérebro do projeto  
-> **Repositório público de entrega:** https://github.com/okjpg/agent-context-kit  
+> **Status:** entregue em código (0.1.0)
+> **Fonte de produto:** PRD canônico em `projects/agent-context-hub/PRD.md` no segundo cérebro do projeto
+> **Repositório público de entrega:** https://github.com/okjpg/agent-context-kit
 > **Escopo travado:** `files` + Fathom, SQLite/FTS5, MCP por stdio, instalação Hermes e documentação operacional.
 
 ## Objetivo
