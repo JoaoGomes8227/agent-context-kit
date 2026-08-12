@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Wrapper fino: Hermes executa este arquivo; toda regra continua no código canônico.
+set -euo pipefail
+
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+# O MCP stdio recebe um ambiente filtrado do Hermes. Derivar o home pelo próprio
+# wrapper instalado elimina a dependência de ACK_HOME atravessar essa fronteira.
+INSTALLED_HOME="$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)"
+KIT_HOME="${ACK_HOME:-$INSTALLED_HOME}"
+APP_ROOT="$KIT_HOME/app"
+
+if [[ ! -f "$APP_ROOT/src/agent_context_kit/cli.py" ]]; then
+  printf '%s\n' 'Agent Context Kit não está instalado corretamente.' >&2
+  exit 1
+fi
+
+export PYTHONPATH="$APP_ROOT/src${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -m agent_context_kit.cli "$@"

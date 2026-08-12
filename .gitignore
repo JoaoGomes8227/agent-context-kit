@@ -1,0 +1,18 @@
+# Runtime privado do Kit — nunca versionar evidência, banco, cursor ou credencial.
+.context-kit/
+context.sqlite3
+context.sqlite3-shm
+context.sqlite3-wal
+context-ledger.jsonl
+raw/
+receipts/
+state/
+backups/
+config.json
+
+# Python e ferramentas locais
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.DS_Store
