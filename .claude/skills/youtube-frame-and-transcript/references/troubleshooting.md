@@ -8,6 +8,8 @@
 | `Sign in to confirm you're not a bot` | Troque a ordem dos clients: `player_client=tv,android,web_embedded`. Se persistir, o vídeo exige login e está fora do escopo. |
 | `Private video` / `Video unavailable` | Fora do escopo. Informe o usuário; não peça credenciais. |
 | `Requested format is not available` no frame | Use `-f "b[height<=480]/b"`; alguns vídeos só têm formatos combinados. |
+| Frame saiu 640x360 mesmo pedindo 720p | Os clients `android,web_embedded,tv` só expõem o formato 18. Use `player_client=default` (formatos 136/232 em 1280x720). Confira com `yt-dlp -F --extractor-args "youtube:player_client=default"`. |
+| Texto do frame pequeno demais para ler | Gere recortes ampliados com PIL no sandbox (bloco do Passo 3) e exporte cada recorte. O ambiente local não tem PIL, cv2, ffmpeg nem ImageMagick. |
 | `--download-sections` ignorado, baixou o vídeo inteiro | Falta `ffmpeg` no sandbox. Instale com `apt-get install -y -qq ffmpeg` e repita. |
 | Aviso "impersonation ... not available" | Só aviso. Ignore. |
 | `WARNING: ... no subtitles` | O vídeo não tem legenda automática nem manual. Não há transcrição; diga isso ao usuário. |

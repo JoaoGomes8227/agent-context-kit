@@ -102,28 +102,60 @@ Vídeos longos geram texto acima do limite do tool result. Nesse caso, leia em f
 Baixe só uma janela de poucos segundos em 720p e extraia o quadro com `ffmpeg`. `T` é o timestamp
 em segundos. Vários timestamps: uma janela por timestamp, mesmo comando em loop.
 
+Use `player_client=default` aqui, não a lista `android,web_embedded,tv` da transcrição: esses
+clients só expõem o formato 18 (640x360), e em 360p o texto de uma IDE ou slide fica ilegível.
+O bloco confere a resolução e cai para os outros clients só se o `default` falhar.
+
 ```bash
 cd /mnt/files && VID=kbR8goTbJS0 && T=280 && which ffmpeg >/dev/null || apt-get install -y -qq ffmpeg >/dev/null 2>&1
-S=$((T-2)); E=$((T+2))
-timeout 150 yt-dlp -q --no-warnings -f "bv*[height<=720]/b[height<=720]" \
+S=$((T-2)); E=$((T+2)); URL="https://www.youtube.com/watch?v=$VID"
+timeout 150 yt-dlp -q --no-warnings -f "bv*[height<=720][ext=mp4]/bv*[height<=720]/b[height<=720]" \
+  --download-sections "*${S}-${E}" --force-keyframes-at-cuts \
+  --extractor-args "youtube:player_client=default" \
+  -o "clip_${VID}_${T}.%(ext)s" "$URL" 2>&1 | grep -i error
+ls clip_${VID}_${T}.* >/dev/null 2>&1 || timeout 150 yt-dlp -q --no-warnings -f "b[height<=720]/b" \
   --download-sections "*${S}-${E}" --force-keyframes-at-cuts \
   --extractor-args "youtube:player_client=android,web_embedded,tv" \
-  -o "clip_${VID}_${T}.%(ext)s" "https://www.youtube.com/watch?v=$VID" 2>&1 | grep -i error
-ffmpeg -loglevel error -y -ss 2 -i clip_${VID}_${T}.mp4 -frames:v 1 -q:v 2 frame_${VID}_${T}.png
-ls -la frame_${VID}_${T}.png
+  -o "clip_${VID}_${T}.%(ext)s" "$URL" 2>&1 | grep -i error
+CLIP=$(ls clip_${VID}_${T}.* | head -1)
+ffmpeg -loglevel error -y -ss 2 -i "$CLIP" -frames:v 1 frame_${VID}_${T}.png
+ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 frame_${VID}_${T}.png
 ```
 
-`-ss 2` porque o clipe começa em `T-2`. Não use OCR para "ver" o quadro: em telas desenhadas à
-mão ele devolve lixo. O frame precisa chegar aos seus olhos, e é isso que o Passo 4 faz.
+`-ss 2` porque o clipe começa em `T-2`. Se o `ffprobe` mostrar largura abaixo de 1280, avise na
+resposta que o vídeo só oferece baixa resolução para esse trecho.
+
+Quando o quadro tiver texto pequeno (terminal, IDE, planilha), gere recortes ampliados ainda no
+sandbox antes de exportar. O ambiente local não tem PIL, ffmpeg nem ImageMagick, então isso só
+funciona lá:
+
+```bash
+cd /mnt/files && python3 - frame_${VID}_${T}.png <<'EOF'
+import sys
+from PIL import Image
+im = Image.open(sys.argv[1]); w, h = im.size
+for name, box in {"left": (0, 0, w//2, h), "right": (w//2, 0, w, h), "center": (w//4, h//8, 3*w//4, 7*h//8)}.items():
+    im.crop(box).resize(((box[2]-box[0])*2, (box[3]-box[1])*2), Image.LANCZOS).save(sys.argv[1].replace(".png", f"_zoom_{name}.png"))
+print("ok")
+EOF
+```
+
+Não use OCR para "ver" o quadro: em telas desenhadas à mão ele devolve lixo. O frame precisa chegar
+aos seus olhos, e é isso que o Passo 4 faz.
 
 ## Passo 4: trazer o frame para o ambiente local e olhar
 
-1. No `COMPOSIO_REMOTE_WORKBENCH`, exporte com o helper pré-carregado:
+1. No `COMPOSIO_REMOTE_WORKBENCH`, exporte com o helper pré-carregado. Vários arquivos, um
+   `upload_local_file` por arquivo, na mesma célula:
 
    ```python
-   data, err = upload_local_file("/mnt/files/frame_kbR8goTbJS0_280.png")
-   print(err or data["s3_url"])
+   for f in ["/mnt/files/frame_kbR8goTbJS0_280.png", "/mnt/files/frame_kbR8goTbJS0_280_zoom_center.png"]:
+       data, err = upload_local_file(f)
+       print(f, "->", err or data["s3_url"])
    ```
+
+   O mesmo helper serve para trazer a transcrição limpa (`transcript_<VID>.txt`) como arquivo exato,
+   em vez de copiá-la do stdout.
 
    O link devolvido é curto, em `backend.composio.dev`, e redireciona para um storage assinado que
    expira em 1 hora.
