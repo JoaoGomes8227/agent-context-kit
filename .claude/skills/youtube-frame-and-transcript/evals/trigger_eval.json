@@ -1,0 +1,22 @@
+[
+  {"query": "me resume esse video aqui do bruno okamoto sobre segundo cerebro https://youtu.be/kbR8goTbJS0?si=B-DeHq0fhMl3mNfd, quero os pontos com os minutos pra eu voltar depois", "should_trigger": true},
+  {"query": "Use o Composio e me diga o que aparece na tela no minuto 4:40 desse vídeo https://www.youtube.com/watch?v=kbR8goTbJS0", "should_trigger": true},
+  {"query": "preciso da transcrição completa dessa aula de n8n pra colocar no notion do time: https://www.youtube.com/watch?v=dQw4w9WgXcQ", "should_trigger": true},
+  {"query": "tira um print do slide que ele mostra lá pelos 12 minutos e meio nesse vídeo e me descreve o diagrama https://youtu.be/kbR8goTbJS0", "should_trigger": true},
+  {"query": "tentei ler as legendas desse vídeo pela API do YouTube e deu 403, tem outro jeito? é o kbR8goTbJS0", "should_trigger": true},
+  {"query": "Compare o que esse vídeo propõe com a arquitetura do nosso repo agent-context-kit e me diga o que falta implementar: https://www.youtube.com/watch?v=kbR8goTbJS0", "should_trigger": true},
+  {"query": "what does the speaker show on screen at 18:30 in this youtube short? https://www.youtube.com/shorts/abc123XYZ00", "should_trigger": true},
+  {"query": "pega os action items que o cara fala nessa live gravada, com timestamp, quero mandar pro cliente hoje https://www.youtube.com/live/Zz9yY8xX7wW", "should_trigger": true},
+  {"query": "quais ferramentas ele cita nesse vídeo? só me lista com o minuto em que aparece cada uma. link: youtu.be/kbR8goTbJS0", "should_trigger": true},
+  {"query": "Me faz um roteiro de vídeo de 10 minutos pro meu canal do YouTube sobre segundo cérebro com IA, no estilo do Bruno Okamoto", "should_trigger": false},
+  {"query": "quantas views e likes tem o vídeo kbR8goTbJS0? e quando foi publicado?", "should_trigger": false},
+  {"query": "lista os últimos 10 vídeos do canal @gecohost com título e data usando o composio", "should_trigger": false},
+  {"query": "transcreve esse áudio de reunião que gravei no celular, tá em ~/Downloads/reuniao-cliente-0904.m4a", "should_trigger": false},
+  {"query": "sobe as legendas em português que eu fiz (legendas.srt) no meu vídeo do youtube ID kbR8goTbJS0 pelo composio", "should_trigger": false},
+  {"query": "extrai o frame do segundo 30 desse mp4 que está na pasta do projeto, assets/demo.mp4, e salva como png", "should_trigger": false},
+  {"query": "posta um comentário no vídeo https://youtu.be/kbR8goTbJS0 agradecendo pelo conteúdo, pode usar minha conta conectada no composio", "should_trigger": false},
+  {"query": "o que é o Context Ledger que o pessoal fala em vídeo de segundo cérebro? explica o conceito pra mim sem eu precisar assistir nada", "should_trigger": false},
+  {"query": "baixa esse vídeo inteiro do youtube em 1080p pra eu editar depois no premiere: https://youtu.be/kbR8goTbJS0", "should_trigger": false},
+  {"query": "me ajuda a configurar o composio pra conectar minha conta do youtube no claude code, nunca fiz isso", "should_trigger": false},
+  {"query": "faz um vídeo explicativo animado de 2 minutos resumindo o repo agent-context-kit pra eu postar no youtube", "should_trigger": false}
+]
