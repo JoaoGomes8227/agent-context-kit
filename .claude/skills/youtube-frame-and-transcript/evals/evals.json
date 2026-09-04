@@ -1,0 +1,33 @@
+{
+  "skill_name": "youtube-frame-and-transcript",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Use o Composio e me diga o que aparece na tela desse vídeo no minuto 12:50, e o que ele está falando nesse trecho: https://youtu.be/kbR8goTbJS0?si=B-DeHq0fhMl3mNfd",
+      "expected_output": "Um arquivo PNG do frame em 12:50 salvo em outputs/, uma descrição do que está na tela (tela do agente Hermes mostrando o exemplo de ledger com campos ts, source, who, who_kind, excerpt, ref) e a fala correspondente da transcrição com marcação de minuto.",
+      "files": [],
+      "expectations": [
+        "Um arquivo de imagem PNG ou JPG do frame existe no diretório de outputs e tem mais de 20 KB",
+        "A resposta descreve elementos visíveis na tela em 12:50 (tela de terminal/agente ou lista de campos do ledger) sem se limitar a repetir a transcrição",
+        "A resposta cita a fala do autor no trecho de 12:50 com marcação de minuto",
+        "A resposta identifica o vídeo pelo título 'As 3 camadas que deixam o Segundo Cérebro da sua IA mais inteligente' ou pelo canal Bruno Okamoto",
+        "A transcrição e o frame foram obtidos via yt-dlp no sandbox do Composio, não via YOUTUBE_LOAD_CAPTIONS nem base64 manual",
+        "Nenhuma tentativa de acessar hosts públicos de upload de arquivos (0x0.st, transfer.sh, file.io, catbox) aparece no transcript"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Resume pra mim os pontos principais desse vídeo com os minutos: https://www.youtube.com/watch?v=kbR8goTbJS0",
+      "expected_output": "Lista de pontos principais com marcação [mm:ss], cobrindo os três degraus (chatbot, agente, empresa agêntica), as três camadas (captura bruta, ledger, segundo cérebro), a aprovação de contatos do WhatsApp e a recomendação de VPS. Metadados do vídeo em uma linha.",
+      "files": [],
+      "expectations": [
+        "A resposta contém pelo menos 5 pontos com marcação de minuto no formato [mm:ss] ou mm:ss",
+        "A resposta menciona o Ledger e seus campos ou função de mapa/bússola",
+        "A resposta menciona os três níveis chatbot, agente e empresa agêntica",
+        "A resposta menciona a aprovação manual de contatos do WhatsApp (WhatsApp Classify) ou o fluxo n8n + Supabase",
+        "A resposta inclui título, canal ou duração do vídeo obtidos por metadados",
+        "A transcrição foi obtida via yt-dlp no sandbox do Composio e salva como texto, sem chamar YOUTUBE_LOAD_CAPTIONS para download"
+      ]
+    }
+  ]
+}
